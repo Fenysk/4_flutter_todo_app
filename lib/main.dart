@@ -51,17 +51,16 @@ class _TodoScreenState extends State<TodoScreen> {
     return Center(
       child: Column(
         children: [
-          const Text('A faire'),
           TodoList(
-            notDoneTodos,
+            todos: notDoneTodos,
             onToggleDone: toggleDone,
           ),
-          const SizedBox(height: 20),
-          const Text('Faits'),
+          const Divider(),
           TodoList(
-            doneTodos,
+            todos: doneTodos,
             onToggleDone: toggleDone,
           ),
+          const Spacer()
         ],
       ),
     );
