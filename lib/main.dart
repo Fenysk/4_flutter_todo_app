@@ -7,14 +7,30 @@ void main() {
   runApp(const TodoApp());
 }
 
-class TodoApp extends StatefulWidget {
+class TodoApp extends StatelessWidget {
   const TodoApp({super.key});
 
   @override
-  State<TodoApp> createState() => _TodoAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Todo App'),
+        ),
+        body: const TodoScreen(),
+      ),
+    );
+  }
 }
 
-class _TodoAppState extends State<TodoApp> {
+class TodoScreen extends StatefulWidget {
+  const TodoScreen({super.key});
+
+  @override
+  State<TodoScreen> createState() => _TodoScreenState();
+}
+
+class _TodoScreenState extends State<TodoScreen> {
   void toggleDone(String id) {
     setState(() {
       final todo = todosData.firstWhere((todo) => todo.id == id);
@@ -32,26 +48,21 @@ class _TodoAppState extends State<TodoApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Todo App'),
-        ),
-        body: Center(
-          child: Column(
-            children: [
-              TodoList(
-                notDoneTodos,
-                onToggleDone: toggleDone,
-              ),
-              const SizedBox(height: 20),
-              TodoList(
-                doneTodos,
-                onToggleDone: toggleDone,
-              ),
-            ],
+    return Center(
+      child: Column(
+        children: [
+          const Text('A faire'),
+          TodoList(
+            notDoneTodos,
+            onToggleDone: toggleDone,
           ),
-        ),
+          const SizedBox(height: 20),
+          const Text('Faits'),
+          TodoList(
+            doneTodos,
+            onToggleDone: toggleDone,
+          ),
+        ],
       ),
     );
   }
