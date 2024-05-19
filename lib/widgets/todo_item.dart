@@ -2,43 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/models/todo.dart';
 
 class TodoItem extends StatefulWidget {
-  const TodoItem({super.key, required this.todo, required this.onToggleDone});
+  const TodoItem({super.key, required this.todo});
 
   final Todo todo;
-  final void Function(String id, bool isDone) onToggleDone;
 
   @override
   State<TodoItem> createState() => _TodoItemState();
 }
 
 class _TodoItemState extends State<TodoItem> {
-  void _setDone(bool? isChecked) {
-    setState(() {
-      widget.onToggleDone(widget.todo.id, isChecked!);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Checkbox(
-          value: widget.todo.done,
-          onChanged: _setDone,
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Text(widget.todo.priorityEmoji),
+            const SizedBox(width: 8.0),
+            Text(
+              widget.todo.text,
+              style: TextStyle(
+                decoration:
+                    widget.todo.done ? TextDecoration.lineThrough : null,
+                fontWeight:
+                    !widget.todo.done && widget.todo.priority == Priority.high
+                        ? FontWeight.bold
+                        : null,
+              ),
+            ),
+          ],
         ),
-        Text(widget.todo.priorityEmoji),
-        const SizedBox(width: 8.0),
-        Text(
-          widget.todo.text,
-          style: TextStyle(
-            decoration: widget.todo.done ? TextDecoration.lineThrough : null,
-            fontWeight:
-                !widget.todo.done && widget.todo.priority == Priority.high
-                    ? FontWeight.bold
-                    : null,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

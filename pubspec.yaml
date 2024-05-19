@@ -7,6 +7,7 @@ environment:
   sdk: '>=3.3.4 <4.0.0'
 
 dependencies:
+  dart_format: ^1.1.17
   flutter:
     sdk: flutter
   uuid: ^4.4.0

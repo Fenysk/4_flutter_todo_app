@@ -4,17 +4,30 @@ import 'package:todo_app/widgets/todo_list.dart';
 import 'package:todo_app/data/todos_data.dart';
 
 void main() {
-  runApp(TodoApp());
+  runApp(const TodoApp());
 }
 
-class TodoApp extends StatelessWidget {
-  TodoApp({super.key});
+class TodoApp extends StatefulWidget {
+  const TodoApp({super.key});
 
-  final List<Todo> myTodos = List.of(todosData);
+  @override
+  State<TodoApp> createState() => _TodoAppState();
+}
 
-  void toogleDone(String id, bool isDone) {
-    final todo = myTodos.firstWhere((todo) => todo.id == id);
-    todo.done = isDone;
+class _TodoAppState extends State<TodoApp> {
+  void toggleDone(String id) {
+    setState(() {
+      final todo = todosData.firstWhere((todo) => todo.id == id);
+      todo.done = !todo.done;
+    });
+  }
+
+  List<Todo> get notDoneTodos {
+    return todosData.where((todo) => !todo.done).toList();
+  }
+
+  List<Todo> get doneTodos {
+    return todosData.where((todo) => todo.done).toList();
   }
 
   @override
@@ -25,7 +38,19 @@ class TodoApp extends StatelessWidget {
           title: const Text('Todo App'),
         ),
         body: Center(
-          child: TodoList(myTodos, onToggleDone: toogleDone),
+          child: Column(
+            children: [
+              TodoList(
+                notDoneTodos,
+                onToggleDone: toggleDone,
+              ),
+              const SizedBox(height: 20),
+              TodoList(
+                doneTodos,
+                onToggleDone: toggleDone,
+              ),
+            ],
+          ),
         ),
       ),
     );
