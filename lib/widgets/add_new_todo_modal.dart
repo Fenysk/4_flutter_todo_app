@@ -28,25 +28,23 @@ class _AddNewTodoModalState extends State<AddNewTodoModal> {
   void _showErrorDialog() {
     showDialog(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Erreur'),
-          content: const Text('Veuillez saisir un texte pour la tâche.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
+      builder: (context) => AlertDialog(
+        title: const Text('Erreur'),
+        content: const Text('Veuillez saisir un texte pour la tâche.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
     );
   }
 
   void _submitNewTodoData() {
-    final textIsValid = textController.text.isNotEmpty;
+    final textIsValid = textController.text.trim().isNotEmpty;
 
-    if (!textIsValid) _showErrorDialog();
+    if (!textIsValid) return _showErrorDialog();
 
     widget.onAddNewTodo(
       Todo(
