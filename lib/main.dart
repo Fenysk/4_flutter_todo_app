@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/models/todo.dart';
+import 'package:todo_app/widgets/todo_list.dart';
+import 'package:todo_app/data/todos_data.dart';
 
 void main() {
-  runApp(const TodoApp());
+  runApp(TodoApp());
 }
 
 class TodoApp extends StatelessWidget {
-  const TodoApp({super.key});
+  TodoApp({super.key});
+
+  final List<Todo> myTodos = List.of(todosData);
+
+  void toogleDone(String id, bool isDone) {
+    final todo = myTodos.firstWhere((todo) => todo.id == id);
+    todo.done = isDone;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +24,8 @@ class TodoApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Todo App'),
         ),
-        body: const Center(
-          child: Text('Hello world !'),
+        body: Center(
+          child: TodoList(myTodos, onToggleDone: toogleDone),
         ),
       ),
     );
