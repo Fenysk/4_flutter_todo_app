@@ -47,6 +47,12 @@ class _TodoAppState extends State<TodoApp> {
     });
   }
 
+  void _removeTodo(String id) {
+    setState(() {
+      todosData.removeWhere((todo) => todo.id == id);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,6 +71,7 @@ class _TodoAppState extends State<TodoApp> {
             _notDoneTodos.isNotEmpty
                 ? TodoList(
                     todos: _notDoneTodos,
+                    onRemoveTodo: _removeTodo,
                     onToggleDone: _toggleDone,
                   )
                 : const Padding(
@@ -76,6 +83,7 @@ class _TodoAppState extends State<TodoApp> {
             _doneTodos.isNotEmpty
                 ? TodoList(
                     todos: _doneTodos,
+                    onRemoveTodo: _removeTodo,
                     onToggleDone: _toggleDone,
                   )
                 : const Padding(
